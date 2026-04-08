@@ -1,0 +1,196 @@
+name: Development Stage - PR Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+env:
+  JAVA_VERSION: '21'
+  MAVEN_VERSION: '3.9.6'
+  PROJECT_NAME: 'my-test-app'
+
+jobs:
+  code-quality-and-security:
+    name: Code Quality & Security Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+      # 1. Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for SonarQube analysis
+          
+#      # 2. Set up Java
+#      - name: Set up JDK ${{ env.JAVA_VERSION }}
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: ${{ env.JAVA_VERSION }}
+#          cache: 'maven'
+          
+#      # 3. Cache Maven dependencies
+#      - name: Cache Maven packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-maven-
+          
+#      # 4. Build with Maven (runs tests, PMD, SpotBugs)
+#      - name: Build with Maven
+#        run: |
+#          mvn -B clean verify \
+#            -DskipITs=false \
+#            -Dspotbugs.effort=max \
+#            -Dspotbugs.threshold=medium
+#        continue-on-error: true
+#
+#      # 5. Generate SpotBugs Report
+#      - name: Generate SpotBugs Report
+#        run: mvn spotbugs:gui -DskipTests
+#        continue-on-error: true
+#        if: always()
+#
+#      # 6. Generate PMD Report
+#      - name: Generate PMD Report
+#        run: mvn pmd:cpd-check
+#        continue-on-error: true
+#        if: always()
+#
+#      # 7. Generate JaCoCo Coverage Report
+#      - name: Generate JaCoCo Coverage Report
+#        run: mvn jacoco:report
+#        continue-on-error: true
+#        if: always()
+#
+#      # 8. SonarQube Analysis
+#      - name: SonarQube Analysis
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#        run: |
+#          mvn -B sonar:sonar \
+#            -Dsonar.projectKey=${{ env.PROJECT_NAME }} \
+#            -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
+#            -Dsonar.login=${{ env.SONAR_TOKEN }} \
+#            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+#            -Dsonar.java.spotbugs.reportPaths=target/spotbugsXml.xml \
+#            -Dsonar.java.pmd.reportPaths=target/pmd.xml
+#        continue-on-error: true
+#        if: always()
+#
+#      # 9. OWASP Dependency-Check
+#      - name: Run OWASP Dependency-Check
+#        uses: dependency-check/Dependency-Check_Action@main
+#        with:
+#          project: ${{ env.PROJECT_NAME }}
+#          format: 'HTML'
+#          out: 'reports/dependency-check'
+#          args: >
+#            --enableExperimental
+#            --enableRetired
+#        continue-on-error: true
+#        if: always()
+#
+#      # 10. Build Docker Image (for Trivy scanning)
+#      - name: Build Docker image for security scanning
+#        run: docker build -t ${{ env.PROJECT_NAME }}:pr-${{ github.event.pull_request.number }} .
+#        continue-on-error: true
+#        if: always()
+#
+#      # 11. Trivy Container Scanning
+#      - name: Run Trivy vulnerability scanner
+#        uses: aquasecurity/trivy-action@master
+#        with:
+#          image-ref: ${{ env.PROJECT_NAME }}:pr-${{ github.event.pull_request.number }}
+#          format: 'sarif'
+#          output: 'trivy-results.sarif'
+#          severity: 'CRITICAL,HIGH,MEDIUM'
+#        continue-on-error: true
+#        if: always()
+#
+#      # 12. Upload Trivy results to GitHub Security tab
+#      - name: Upload Trivy results to GitHub Security tab
+#        uses: github/codeql-action/upload-sarif@v2
+#        with:
+#          sarif_file: 'trivy-results.sarif'
+#        continue-on-error: true
+#        if: always()
+#
+#      # 13. Upload reports as artifacts
+#      - name: Upload test reports
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: test-reports
+#          path: |
+#            target/surefire-reports/
+#            target/failsafe-reports/
+#            target/site/
+#          retention-days: 30
+#        if: always()
+#
+#      - name: Upload dependency-check report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: dependency-check-report
+#          path: reports/dependency-check/
+#          retention-days: 30
+#        if: always()
+#
+#      # 14. Parse and comment results on PR
+#      - name: Comment PR with Quality Gates Status
+#        uses: actions/github-script@v7
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          script: |
+#            const fs = require('fs');
+#            const path = require('path');
+#
+#            // Read JaCoCo coverage
+#            let coverage = 'N/A';
+#            try {
+#              const jacocoIndex = fs.readFileSync('target/site/jacoco/index.html', 'utf8');
+#              const coverageMatch = jacocoIndex.match(/Total.*?(\d+%)/);
+#              if (coverageMatch) {
+#                coverage = coverageMatch[1];
+#              }
+#            } catch (e) {
+#              console.log('Could not read JaCoCo report');
+#            }
+#
+#            const comment = `## 📊 Development Stage Quality Check Results
+#
+#| Check | Status | Details |
+#|-------|--------|---------|
+#| 🔨 Build | ✅ Passed | Maven build completed |
+#| 🧪 Unit Tests | ✅ Passed | See test reports artifact |
+#| 🔍 SpotBugs | ℹ️ Checked | See reports artifact |
+#| 🎨 PMD | ℹ️ Checked | See reports artifact |
+#| 📈 Code Coverage | 📊 ${coverage} | JaCoCo report in artifacts |
+#| 🔐 Dependency Check | ✅ Complete | See dependency-check report artifact |
+#| 🐳 Container Scan | ✅ Complete | Trivy results uploaded to Security tab |
+#| 🔍 SonarQube | ✅ Analyzed | View detailed analysis in SonarQube |
+#
+#**Next Steps:**
+#- Review the uploaded reports in the "Artifacts" section
+#- Address any critical or high-severity findings
+#- Ensure code coverage meets your project's threshold (typically 80%+)
+#
+#For detailed security findings, check the "Security" tab in this repository.`;
+#
+#            github.rest.issues.createComment({
+#              issue_number: context.issue.number,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: comment
+#            });
