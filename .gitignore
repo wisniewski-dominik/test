@@ -24,3 +24,57 @@ hs_err_pid*
 replay_pid*
 
 .idea/**
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# === IDE / Editor files ===
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code (optional)
+.vscode/
+
+# === Maven / Java ===
+/target/
+
+# Logs
+*.log
+logs/
+
+# === Dependency / cache folders ===
+/dependency-check-data/
+/node_modules/     # if using Node for frontend
+/.gradle/          # if Gradle appears anywhere
+/.mvn/repository/  # local Maven repo (optional)
+
+# === Spring Boot / generated files ===
+/spring-boot-devtools.properties
+*.class
+*.jar
+*.war
+*.ear
+
+# === Helm / Kubernetes ===
+# Ignore temporary Helm charts or local release artifacts
+charts/
+tmp/
+*.tgz
+*.yaml
+*.lock
+
+# === Others / Security ===
+# Environment files (if storing secrets locally)
+.env
+.env.local
+.env.*.local

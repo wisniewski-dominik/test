@@ -30,21 +30,21 @@ jobs:
         with:
           fetch-depth: 0  # Full history for SonarQube analysis
           
-#      # 2. Set up Java
-#      - name: Set up JDK ${{ env.JAVA_VERSION }}
-#        uses: actions/setup-java@v4
-#        with:
-#          distribution: 'temurin'
-#          java-version: ${{ env.JAVA_VERSION }}
-#          cache: 'maven'
+      # 2. Set up Java
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: 'maven'
           
-#      # 3. Cache Maven dependencies
-#      - name: Cache Maven packages
-#        uses: actions/cache@v4
-#        with:
-#          path: ~/.m2/repository
-#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-#          restore-keys: ${{ runner.os }}-maven-
+      # 3. Cache Maven dependencies
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
           
 #      # 4. Build with Maven (runs tests, PMD, SpotBugs)
 #      - name: Build with Maven
