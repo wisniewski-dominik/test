@@ -46,14 +46,14 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
           
-#      # 4. Build with Maven (runs tests, PMD, SpotBugs)
-#      - name: Build with Maven
-#        run: |
-#          mvn -B clean verify \
-#            -DskipITs=false \
-#            -Dspotbugs.effort=max \
-#            -Dspotbugs.threshold=medium
-#        continue-on-error: true
+      # 4. Build with Maven (runs tests, PMD, SpotBugs)
+      - name: Build with Maven
+        run: |
+          mvn -B clean verify \
+            -DskipITs=false \
+            -Dspotbugs.effort=max \
+            -Dspotbugs.threshold=medium
+        continue-on-error: true
 #
 #      # 5. Generate SpotBugs Report
 #      - name: Generate SpotBugs Report
