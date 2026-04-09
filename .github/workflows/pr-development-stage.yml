@@ -50,26 +50,12 @@ jobs:
       - name: Build with Maven
         run: |
           mvn -B clean verify \
-            -DskipITs=false \
-            -Dspotbugs.effort=max \
-            -Dspotbugs.threshold=medium
+            -DskipITs=false
         continue-on-error: true
-
-#      # 5. Generate SpotBugs Report
-#      - name: Generate SpotBugs Report
-#        run: mvn spotbugs:gui -DskipTests
-#        continue-on-error: true
-#        if: always()
 #
 #      # 6. Generate PMD Report
 #      - name: Generate PMD Report
 #        run: mvn pmd:cpd-check
-#        continue-on-error: true
-#        if: always()
-#
-#      # 7. Generate JaCoCo Coverage Report
-#      - name: Generate JaCoCo Coverage Report
-#        run: mvn jacoco:report
 #        continue-on-error: true
 #        if: always()
 #
@@ -127,17 +113,17 @@ jobs:
 #        continue-on-error: true
 #        if: always()
 #
-#      # 13. Upload reports as artifacts
-#      - name: Upload test reports
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: test-reports
-#          path: |
-#            target/surefire-reports/
-#            target/failsafe-reports/
-#            target/site/
-#          retention-days: 30
-#        if: always()
+      # 13. Upload reports as artifacts
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            target/surefire-reports/
+            target/failsafe-reports/
+            target/site/
+          retention-days: 1
+        if: always()
 #
 #      - name: Upload dependency-check report
 #        uses: actions/upload-artifact@v4

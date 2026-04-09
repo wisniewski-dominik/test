@@ -5,12 +5,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class TestRestControllerTest {
     @Test
-    void get() {
+    void get(){
         TestRestController controller = new TestRestController();
         assertEquals("Hello World", controller.hello().getBody());
     }
