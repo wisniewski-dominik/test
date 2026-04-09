@@ -118,15 +118,15 @@ jobs:
             target/site/
           retention-days: 1
         if: always()
-#
-#      - name: Upload dependency-check report
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: dependency-check-report
-#          path: reports/dependency-check/
-#          retention-days: 30
-#        if: always()
-#
+
+      - name: Upload dependency-check report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: reports/dependency-check/
+          retention-days: 1
+        if: always()
+
 #      # 14. Parse and comment results on PR
 #      - name: Comment PR with Quality Gates Status
 #        uses: actions/github-script@v7
