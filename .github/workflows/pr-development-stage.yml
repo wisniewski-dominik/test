@@ -70,6 +70,8 @@ jobs:
       # 9. OWASP Dependency-Check
       - name: Run OWASP Dependency-Check
         uses: dependency-check/Dependency-Check_Action@main
+        env:
+          JAVA_HOME: /opt/jdk
         with:
           project: ${{ env.PROJECT_NAME }}
           format: 'HTML'
