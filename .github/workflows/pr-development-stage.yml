@@ -37,14 +37,15 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
           cache: 'maven'
-          
-      # 3. Cache Maven dependencies
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+
+# NOT NEEDED
+#      # 3. Cache Maven dependencies
+#      - name: Cache Maven packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-maven-
           
       # 4. Build with Maven (runs tests, PMD, SpotBugs)
       - name: Build with Maven
@@ -54,7 +55,7 @@ jobs:
             -Dspotbugs.effort=max \
             -Dspotbugs.threshold=medium
         continue-on-error: true
-#
+
 #      # 5. Generate SpotBugs Report
 #      - name: Generate SpotBugs Report
 #        run: mvn spotbugs:gui -DskipTests
