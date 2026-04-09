@@ -4,13 +4,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 @RestController
 public class TestRestController {
-    @GetMapping
+    @GetMapping("/h")
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("Hello World");
+    }
+
+    @GetMapping("/h2")
+    public ResponseEntity<String> hello2() {
+        return ResponseEntity.ok("Hello World 2");
+    }
+
+    @GetMapping("/h3")
+    public ResponseEntity<String> hello3() {
+        return ResponseEntity.ok("Hello World 3");
     }
 }

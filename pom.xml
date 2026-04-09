@@ -10,9 +10,28 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.projectKey>com.example:demo</sonar.projectKey>
+		<sonar.projectName>Example Project Name</sonar.projectName>
+		<sonar.token>sqa_5049d5bd53292297fee298dfb52341b26fb3026f</sonar.token>
+
+		<!-- JaCoCo -->
+		<sonar.coverage.jacoco.xmlReportPaths>
+			target/site/jacoco/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
+
+		<!-- PMD -->
+		<sonar.pmd.reportPaths>
+			target/pmd.xml
+		</sonar.pmd.reportPaths>
+
+		<!-- SpotBugs -->
+		<sonar.java.spotbugs.reportPaths>
+			target/spotbugsXml.xml
+		</sonar.java.spotbugs.reportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -225,6 +244,11 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>5.5.0.6356</version>
+			</plugin>
 		</plugins>
 	</build>
 

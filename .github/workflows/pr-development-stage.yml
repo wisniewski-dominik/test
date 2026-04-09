@@ -52,41 +52,33 @@ jobs:
           mvn -B clean verify \
             -DskipITs=false
         continue-on-error: true
-#
-#      # 6. Generate PMD Report
-#      - name: Generate PMD Report
-#        run: mvn pmd:cpd-check
-#        continue-on-error: true
-#        if: always()
-#
+
 #      # 8. SonarQube Analysis
 #      - name: SonarQube Analysis
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 #        run: |
 #          mvn -B sonar:sonar \
-#            -Dsonar.projectKey=${{ env.PROJECT_NAME }} \
-#            -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
-#            -Dsonar.login=${{ env.SONAR_TOKEN }} \
+#            -Dsonar.projectKey=test-project-key \
+#            -Dsonar.projectName=test-project-name \
+#            -Dsonar.host.url=http://localhost:9000 \
+#            -Dsonar.login= \
 #            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
 #            -Dsonar.java.spotbugs.reportPaths=target/spotbugsXml.xml \
 #            -Dsonar.java.pmd.reportPaths=target/pmd.xml
 #        continue-on-error: true
 #        if: always()
-#
-#      # 9. OWASP Dependency-Check
-#      - name: Run OWASP Dependency-Check
-#        uses: dependency-check/Dependency-Check_Action@main
-#        with:
-#          project: ${{ env.PROJECT_NAME }}
-#          format: 'HTML'
-#          out: 'reports/dependency-check'
-#          args: >
-#            --enableExperimental
-#            --enableRetired
-#        continue-on-error: true
-#        if: always()
+
+      # 9. OWASP Dependency-Check
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: ${{ env.PROJECT_NAME }}
+          format: 'HTML'
+          out: 'reports/dependency-check'
+          args: >
+            --enableExperimental
+            --enableRetired
+        continue-on-error: true
+        if: always()
 #
 #      # 10. Build Docker Image (for Trivy scanning)
 #      - name: Build Docker image for security scanning

@@ -3,9 +3,6 @@ package com.example.demo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,5 +12,17 @@ class TestRestControllerTest {
     void get(){
         TestRestController controller = new TestRestController();
         assertEquals("Hello World", controller.hello().getBody());
+    }
+
+    @Test
+    void get2(){
+        TestRestController controller = new TestRestController();
+        assertEquals("Hello World 2", controller.hello2().getBody());
+    }
+
+    @Test
+    void get3(){
+        TestRestController controller = new TestRestController();
+        assertEquals("Hello World 3", controller.hello3().getBody());
     }
 }
