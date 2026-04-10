@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
       - develop
+      - new_feature*
     types:
       - opened
       - synchronize
