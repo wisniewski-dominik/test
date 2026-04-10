@@ -81,23 +81,25 @@ jobs:
             --enableRetired
         continue-on-error: true
         if: always()
+
+      # 10. Build Docker Image (for Trivy scanning)
+      - name: Build Docker image for security scanning
+        #run: docker build -t ${{ env.PROJECT_NAME }}:pr-${{ github.event.pull_request.number }} .
+        run: docker build -t ${{ env.PROJECT_NAME }}:build-${{github.run_number}} .
+        continue-on-error: true
+        if: always()
 #
-#      # 10. Build Docker Image (for Trivy scanning)
-#      - name: Build Docker image for security scanning
-#        run: docker build -t ${{ env.PROJECT_NAME }}:pr-${{ github.event.pull_request.number }} .
-#        continue-on-error: true
-#        if: always()
-#
-#      # 11. Trivy Container Scanning
-#      - name: Run Trivy vulnerability scanner
-#        uses: aquasecurity/trivy-action@master
-#        with:
-#          image-ref: ${{ env.PROJECT_NAME }}:pr-${{ github.event.pull_request.number }}
-#          format: 'sarif'
-#          output: 'trivy-results.sarif'
-#          severity: 'CRITICAL,HIGH,MEDIUM'
-#        continue-on-error: true
-#        if: always()
+      # 11. Trivy Container Scanning
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          #image-ref: ${{ env.PROJECT_NAME }}:pr-${{ github.event.pull_request.number }}
+          image-ref: ${{ env.PROJECT_NAME }}:build-${{github.run_number}}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'LOW,MEDIUM,HIGH,CRITICAL'
+        continue-on-error: true
+        if: always()
 #
 #      # 12. Upload Trivy results to GitHub Security tab
 #      - name: Upload Trivy results to GitHub Security tab
