@@ -179,3 +179,11 @@ jobs:
               repo: context.repo.repo,
               body: comment
             });
+
+      # Tests
+      - name: Tests
+        run: |
+          echo "running tests..."
+          exit 1  # Simulate test failure for demonstration
+#        continue-on-error: true
+#        if: always()
