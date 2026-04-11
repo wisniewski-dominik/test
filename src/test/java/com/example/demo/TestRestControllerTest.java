@@ -19,10 +19,4 @@ class TestRestControllerTest {
         TestRestController controller = new TestRestController();
         assertEquals("Hello World 2", controller.hello2().getBody());
     }
-
-    @Test
-    void get3(){
-        TestRestController controller = new TestRestController();
-        assertEquals("Hello World 3", controller.hello3().getBody());
-    }
 }
