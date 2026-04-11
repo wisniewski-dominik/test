@@ -200,5 +200,5 @@ jobs:
         run: |
           echo "Failure in 2nd JOB - NO continue-on-error: true..."
           exit 1  # Simulate test failure for demonstration
-#        continue-on-error: true
+        continue-on-error: true
 #       if: always()
