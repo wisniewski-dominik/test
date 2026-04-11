@@ -15,9 +15,4 @@ public class TestRestController {
     public ResponseEntity<String> hello2() {
         return ResponseEntity.ok("Hello World 2");
     }
-
-    @GetMapping("/h3")
-    public ResponseEntity<String> hello3() {
-        return ResponseEntity.ok("Hello World 3");
-    }
 }
