@@ -183,7 +183,7 @@ jobs:
       # Tests
       - name: Tests
         run: |
-          echo "running tests..."
+          echo "running tests 2..."
           exit 1  # Simulate test failure for demonstration
-#        continue-on-error: true
+        continue-on-error: true
 #        if: always()
